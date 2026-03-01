@@ -1,4 +1,4 @@
-name: Q14 - Seeds 41-50 Scraper
+name: Q14 - Seeds 41-50
 
 on:
   workflow_dispatch:
@@ -9,17 +9,22 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Python
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Python - 23ds3000079@ds.study.iitm.ac.in
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
           
-      - name: Install dependencies
-        run: |
-          pip install playwright beautifulsoup4 requests
-          python -m playwright install chromium
-          
+      - name: Install requests
+        run: pip install requests
+        
       - name: Run scraper
-        run: python scrape_q14.py
+        run: python q14.py
+        
+      - name: Show results
+        run: |
+          echo "## Q14 Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Grand Total: $(python q14.py | grep GRAND | tail -1 | cut -d' ' -f3)" >> $GITHUB_STEP_SUMMARY
