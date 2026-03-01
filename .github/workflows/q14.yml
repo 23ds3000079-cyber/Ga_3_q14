@@ -1,0 +1,25 @@
+name: Q14 - Seeds 41-50 Scraper
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          
+      - name: Install dependencies
+        run: |
+          pip install playwright beautifulsoup4 requests
+          python -m playwright install chromium
+          
+      - name: Run scraper
+        run: python scrape_q14.py
